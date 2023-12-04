@@ -1,18 +1,20 @@
 import java.util.Objects;
-import java.util.UUID;
+
 
 public class Item {
     private String id;
     private String article;
     private String title;
     private double price;
+    private int quantity;
 
 
-    public Item(String id, String article, String title, double price) {
+    public Item(String id, String article, String title, double price, int quantity) {
         this.id = id;
         this.article = article;
         this.title = title;
         this.price = price;
+        this.quantity = quantity;
     }
 
 
@@ -32,6 +34,10 @@ public class Item {
         return price;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,15 +50,15 @@ public class Item {
         return Objects.hash(getId());
     }
 
+
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", article='" + article + '\'' +
                 ", title='" + title + '\'' +
-                ", price=" + price + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
                 '}';
     }
-
-
 }

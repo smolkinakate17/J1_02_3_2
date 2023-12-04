@@ -1,17 +1,18 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Storage {
     private String title;
     private String owner;
-    private Map<Item, Integer> items = new HashMap<>();
+    private List<Item> items = new ArrayList<>();
 
     public Storage(String title, String owner) {
         this.title = title;
         this.owner = owner;
     }
 
-    public Storage(String title, String owner, Map<Item, Integer> items) {
+    public Storage(String title, String owner, List<Item> items) {
         this.title = title;
         this.owner = owner;
         this.items = items;
@@ -25,7 +26,7 @@ public class Storage {
         return owner;
     }
 
-    public Map<Item, Integer> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 

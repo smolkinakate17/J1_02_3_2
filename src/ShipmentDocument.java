@@ -22,9 +22,9 @@ public class ShipmentDocument {
 
     public double totalAmount() {
         long sum = 0;
-        for (Map.Entry<Item, Integer> item : storage.getItems().entrySet()) {
-            int kopeckPrice = (int) (item.getKey().getPrice() * 100);
-            sum += item.getValue() * (long) kopeckPrice;
+        for (Item item : storage.getItems()) {
+            int kopeckPrice = (int) (item.getPrice() * 100);
+            sum += item.getQuantity() * (long) kopeckPrice;
         }
         return (double) sum / 100;
     }
@@ -33,31 +33,20 @@ public class ShipmentDocument {
      * Стоимость товара с переданным id.
      */
     public double itemAmount(String id) {
-        Map.Entry<Item, Integer> item = storage.getItems().entrySet().stream().
-                filter(itemIntegerEntry -> itemIntegerEntry.getKey().getId().equals(id)).
-                findFirst().orElse(null);
+        Item item = storage.getItems().stream().filter(item1 -> item1.getId().equals(id)).findFirst().orElse(null);
         if (item == null) {
             return 0;
         }
-        int kopeckPrice = (int) (item.getKey().getPrice() * 100);
-        return (double) (item.getValue() * kopeckPrice) / 100;
+        int kopeckPrice = (int) (item.getPrice() * 100);
+        return (double) (item.getQuantity() * kopeckPrice) / 100;
     }
 
-    /**
-     * Является ли перемещение внутренним (между складами одного владельца).
-     * Для продаж неприменимо!
-     */
-    public boolean isInternalMovement() {
-        return this instanceof MovingDocument;
-    }
 
     /**
-     * Map.Entry<Item, Integer> с переданным article.
+     * Item с переданным article.
      */
-    protected Map.Entry<Item, Integer> findEntryItemIntegerByArticle(String article) {
-        return storage.getItems().entrySet().stream().
-                filter(itemIntegerEntry -> itemIntegerEntry.getKey().getArticle().equals(article)).
-                findFirst().orElse(null);
+    protected Item findEntryItemIntegerByArticle(String article) {
+        return storage.getItems().stream().filter(item -> item.getArticle().equals(article)).findFirst().orElse(null);
     }
 
     public String getDocumentId() {

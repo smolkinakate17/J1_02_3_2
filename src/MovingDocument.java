@@ -1,9 +1,12 @@
 import java.util.Date;
-import java.util.Map;
+
 
 public class MovingDocument extends ShipmentDocument {
-    public MovingDocument(String documentId, Date documentDate, Storage storage) {
+    Storage movingStorage;
+
+    public MovingDocument(String documentId, Date documentDate, Storage storage, Storage movingStorage) {
         super(documentId, documentDate, storage);
+        this.movingStorage = movingStorage;
     }
 
     /**
@@ -12,15 +15,23 @@ public class MovingDocument extends ShipmentDocument {
     public double promoSum(String[] promoArticles) {
         long sum = 0;
         for (String art : promoArticles) {
-            Map.Entry<Item, Integer> item = findEntryItemIntegerByArticle(art);
-            if(item==null){
+            Item item = findEntryItemIntegerByArticle(art);
+            if (item == null) {
                 continue;
             }
-            int itemPriceInKopeck = (int) (item.getKey().getPrice() * 100);
+            int itemPriceInKopeck = (int) (item.getPrice() * 100);
 
-            sum += item.getValue() * (long)itemPriceInKopeck;
+            sum += item.getQuantity() * (long) itemPriceInKopeck;
         }
-        return (double) sum/100;
+        return (double) sum / 100;
+    }
+
+    /**
+     * Является ли перемещение внутренним (между складами одного владельца).
+     * Для продаж неприменимо!
+     */
+    public boolean isInternalMovement() {
+        return movingStorage.getOwner().equals(storage.getOwner());
     }
 
 }
