@@ -6,27 +6,28 @@ public class Main {
         Random rnd = new Random();
 
         Storage firstStorage = new Storage("FirstStorage", "FirstStorageOwner");
+        SaleDocument firstSale = new SaleDocument(UUID.randomUUID().toString(), Date.from(Instant.now()), firstStorage, "Customer");
         for (int i = 0; i < 10; i++) {
             Item item = new Item(UUID.randomUUID().toString(), String.valueOf(rnd.nextInt(100000000, 999999999)), i + "Item", rnd.nextDouble(100.0, 9000.0), rnd.nextInt(100, 1000));
-            firstStorage.getItems().add(item);
+            firstSale.getItems().add(item);
         }
         Item i1 = new Item(UUID.randomUUID().toString(), String.valueOf(rnd.nextInt(100000000, 999999999)), "Item1", rnd.nextDouble(100.0, 9000.0), rnd.nextInt(100, 1000));
-        firstStorage.getItems().add(i1);
-        SaleDocument firstSale = new SaleDocument(UUID.randomUUID().toString(), Date.from(Instant.now()), firstStorage, "Customer");
+        firstSale.getItems().add(i1);
+
 
         Storage secondStorage = new Storage("SecondStorage", "SecondStorageOwner");
-        for (int i = 0; i < 10; i++) {
-            Item item = new Item(UUID.randomUUID().toString(), String.valueOf(rnd.nextInt(100000000, 999999999)), i + "Item", rnd.nextDouble(100.0, 9000.0), rnd.nextInt(100, 1000));
-            secondStorage.getItems().add(item);
-        }
-        Item i2 = new Item(UUID.randomUUID().toString(), String.valueOf(rnd.nextInt(100000000, 999999999)), "Item1", rnd.nextDouble(100.0, 9000.0), rnd.nextInt(100, 1000));
-        secondStorage.getItems().add(i2);
-
         Storage thirdStorage = new Storage("ThirdStorage", "SecondStorageOwner");
         Storage fourthStorage = new Storage("FourthStorage", "FourthStorageOwner");
 
         MovingDocument firstMoving = new MovingDocument(UUID.randomUUID().toString(), Date.from(Instant.now()), secondStorage, thirdStorage);
         MovingDocument secondMoving = new MovingDocument(UUID.randomUUID().toString(), Date.from(Instant.now()), secondStorage, fourthStorage);
+
+        for (int i = 0; i < 10; i++) {
+            Item item = new Item(UUID.randomUUID().toString(), String.valueOf(rnd.nextInt(100000000, 999999999)), i + "Item", rnd.nextDouble(100.0, 9000.0), rnd.nextInt(100, 1000));
+            firstMoving.getItems().add(item);
+        }
+        Item i2 = new Item(UUID.randomUUID().toString(), String.valueOf(rnd.nextInt(100000000, 999999999)), "Item1", rnd.nextDouble(100.0, 9000.0), rnd.nextInt(100, 1000));
+        firstMoving.getItems().add(i2);
 
         System.out.println("Суммарная стоимость товаров в документе firstSale = " + firstSale.totalAmount());
         System.out.println("Суммарная стоимость товаров в документе firstMoving = " + firstMoving.totalAmount());

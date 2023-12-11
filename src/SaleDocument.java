@@ -36,7 +36,7 @@ public class SaleDocument extends ShipmentDocument {
     public boolean isWholesale(double minQuantity) {
 
         double sumQuantity = 0;
-        for (Item item : storage.getItems()) {
+        for (Item item : items) {
             if (item.getQuantity() >= minQuantity) {
                 return true;
             }

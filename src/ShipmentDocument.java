@@ -8,7 +8,7 @@ public class ShipmentDocument {
     protected String documentId;
     protected Date documentDate;
     protected Storage storage;
-
+    protected List<Item> items = new ArrayList<>();
 
     public ShipmentDocument(String documentId, Date documentDate, Storage storage) {
         this.documentId = documentId;
@@ -22,7 +22,7 @@ public class ShipmentDocument {
 
     public double totalAmount() {
         long sum = 0;
-        for (Item item : storage.getItems()) {
+        for (Item item : items) {
             int kopeckPrice = (int) (item.getPrice() * 100);
             sum += item.getQuantity() * (long) kopeckPrice;
         }
@@ -33,7 +33,7 @@ public class ShipmentDocument {
      * Стоимость товара с переданным id.
      */
     public double itemAmount(String id) {
-        Item item = storage.getItems().stream().filter(item1 -> item1.getId().equals(id)).findFirst().orElse(null);
+        Item item = items.stream().filter(item1 -> item1.getId().equals(id)).findFirst().orElse(null);
         if (item == null) {
             return 0;
         }
@@ -46,7 +46,7 @@ public class ShipmentDocument {
      * Item с переданным article.
      */
     protected Item findEntryItemIntegerByArticle(String article) {
-        return storage.getItems().stream().filter(item -> item.getArticle().equals(article)).findFirst().orElse(null);
+        return items.stream().filter(item -> item.getArticle().equals(article)).findFirst().orElse(null);
     }
 
     public String getDocumentId() {
@@ -59,6 +59,10 @@ public class ShipmentDocument {
 
     public Storage getStorage() {
         return storage;
+    }
+
+    public List<Item> getItems() {
+        return items;
     }
 
     @Override
